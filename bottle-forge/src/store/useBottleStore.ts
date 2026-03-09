@@ -70,6 +70,9 @@ const defaultParams: BottleParams = {
     clearance: 0.3,
   },
 
+  // Body style
+  bodyStyle: 'shape',
+
   // Body profile
   profileId: defaultProfileId,
   customProfilePoints: [{ x: 0, y: 1 }, { x: 1, y: 1 }] as ProfilePoint[],
@@ -218,6 +221,7 @@ export function selectBottleParams(state: BottleState): BottleParams {
     lidHeight: state.lidHeight,
     slipOnClearance: state.slipOnClearance,
     thread: state.thread,
+    bodyStyle: state.bodyStyle,
     profileId: state.profileId,
     customProfilePoints: state.customProfilePoints,
     texture: state.texture,

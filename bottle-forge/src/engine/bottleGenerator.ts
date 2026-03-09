@@ -31,6 +31,7 @@ export function generateBottle(
     neckDiameterAuto,
     overallHeight,
     wallThickness,
+    bodyStyle,
     lidType,
     lidHeight,
     slipOnClearance,
@@ -43,11 +44,10 @@ export function generateBottle(
   const bodyHeight = overallHeight - neckHeight;
 
   // Get profile for body shape.
-  // When a surface texture is active, force cylinder profile so the texture
-  // has a uniform surface to work with.
-  const profile = texture.type !== 'none'
-    ? getProfile('cylinder')!
-    : getProfileForParams(params);
+  // Only 'shape' mode uses the user's profile; texture/label force cylinder.
+  const profile = bodyStyle === 'shape'
+    ? getProfileForParams(params)
+    : getProfile('cylinder')!;
 
   // Compute effective neck radius: auto derives from profile top point,
   // manual uses the explicit neckDiameter parameter.
@@ -80,7 +80,7 @@ export function generateBottle(
   body = wasm.Manifold.union(body, floor);
 
   // --- Apply Surface Texture to Body Zone ---
-  if (texture.type !== 'none') {
+  if (bodyStyle === 'texture' && texture.type !== 'none') {
     body = applyTexture(wasm, body, bodyHeight, outerRadius, texture);
   }
 

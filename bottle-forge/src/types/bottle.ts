@@ -58,6 +58,9 @@ export interface BottleParams {
   // Threads (for screw-on)
   thread: ThreadSettings;
 
+  // Body style mode
+  bodyStyle: 'shape' | 'texture' | 'label';
+
   // Body profile
   profileId: string;
   customProfilePoints: ProfilePoint[];

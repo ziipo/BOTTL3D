@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import { BottleDimensions } from '../controls/BottleDimensions';
 import { LidControls } from '../controls/LidControls';
+import { StyleSelector } from '../controls/StyleSelector';
 import { BodyControls } from '../controls/BodyControls';
+import { TextureControls } from '../controls/TextureControls';
+import { LabelControls } from '../controls/LabelControls';
 import { ExportButton } from '../controls/ExportButton';
 import { useBottleStore } from '../../store/useBottleStore';
 
@@ -50,6 +53,33 @@ function CollapsibleSection({ title, children, defaultOpen = true }: Collapsible
   );
 }
 
+function StyleContent() {
+  const bodyStyle = useBottleStore((s) => s.bodyStyle);
+
+  if (bodyStyle === 'shape') {
+    return (
+      <CollapsibleSection title="Body Shape">
+        <BodyControls />
+      </CollapsibleSection>
+    );
+  }
+
+  if (bodyStyle === 'texture') {
+    return (
+      <CollapsibleSection title="Surface Texture">
+        <TextureControls />
+      </CollapsibleSection>
+    );
+  }
+
+  // bodyStyle === 'label'
+  return (
+    <CollapsibleSection title="Label">
+      <LabelControls />
+    </CollapsibleSection>
+  );
+}
+
 function PrintTips() {
   const lidType = useBottleStore((s) => s.lidType);
   const texture = useBottleStore((s) => s.texture);
@@ -88,9 +118,13 @@ export function Sidebar() {
 
         <div className="border-t border-[var(--border-main)]" />
 
-        <CollapsibleSection title="Body Shape">
-          <BodyControls />
+        <CollapsibleSection title="Style">
+          <StyleSelector />
         </CollapsibleSection>
+
+        <div className="border-t border-[var(--border-main)]" />
+
+        <StyleContent />
 
         <div className="border-t border-[var(--border-main)]" />
 

@@ -13,6 +13,7 @@ export function encodeParams(params: BottleParams): string {
     lt: params.lidType,
     lh: Math.round(params.lidHeight * 10) / 10,
     sc: Math.round(params.slipOnClearance * 100) / 100,
+    bs: params.bodyStyle,
     pi: params.profileId,
     u: params.displayUnit,
     se: params.showExploded ? 1 : 0,
@@ -68,6 +69,7 @@ export function decodeParams(hash: string): Partial<BottleParams> | null {
     if (data.lt === 'slip-on' || data.lt === 'screw-on') params.lidType = data.lt;
     if (typeof data.lh === 'number') params.lidHeight = data.lh;
     if (typeof data.sc === 'number') params.slipOnClearance = data.sc;
+    if (data.bs === 'shape' || data.bs === 'texture' || data.bs === 'label') params.bodyStyle = data.bs;
     if (data.pi) params.profileId = data.pi;
     if (data.u === 'mm' || data.u === 'in') params.displayUnit = data.u;
     if (typeof data.se === 'number') params.showExploded = data.se === 1;
