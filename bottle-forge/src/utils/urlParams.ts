@@ -33,6 +33,8 @@ export function encodeParams(params: BottleParams): string {
     ef: Math.round(params.emboss.fontSize * 10) / 10,
     ed: Math.round(params.emboss.depth * 10) / 10,
     ev: Math.round(params.emboss.verticalPosition * 100) / 100,
+    eo: params.emboss.orientation,
+    em: params.emboss.mode,
   };
 
   // Custom profile points
@@ -103,6 +105,8 @@ export function decodeParams(hash: string): Partial<BottleParams> | null {
         fontSize: data.ef ?? 8,
         depth: data.ed ?? 0.5,
         verticalPosition: data.ev ?? 0.5,
+        orientation: data.eo === 'vertical' ? 'vertical' : 'wrap',
+        mode: data.em === 'emboss' ? 'emboss' : 'engrave',
       };
     }
 

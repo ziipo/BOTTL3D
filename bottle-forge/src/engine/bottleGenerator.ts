@@ -4,6 +4,7 @@ import { getProfile, getProfileForParams } from '../data/profiles';
 import { buildBodyCrossSection, buildFloorCrossSection, buildNeckCrossSection } from './profileBuilder';
 import { generateThread } from './threadGenerator';
 import { applyTexture } from './textureGenerator';
+import { generateLabel, applyLabel } from './labelGenerator';
 
 const REVOLVE_SEGMENTS = 64;
 
@@ -21,10 +22,10 @@ interface BottleResult {
  * - Neck Zone: immutable cylinder at the top, threads/lid mechanics
  * - Body Zone: shaped by profile splines, textures, labels
  */
-export function generateBottle(
+export async function generateBottle(
   wasm: ManifoldToplevel,
   params: BottleParams
-): BottleResult {
+): Promise<BottleResult> {
   const {
     outerDiameter,
     neckDiameter,
@@ -82,6 +83,20 @@ export function generateBottle(
   // --- Apply Surface Texture to Body Zone ---
   if (bodyStyle === 'texture' && texture.type !== 'none') {
     body = applyTexture(wasm, body, bodyHeight, outerRadius, texture);
+  }
+
+  // --- Apply Label to Body Zone ---
+  if (bodyStyle === 'label' && params.emboss.text) {
+    console.log('[Label] Starting generation, text:', params.emboss.text, 'radius:', outerRadius, 'bodyH:', bodyHeight);
+    const label = await generateLabel(wasm, params.emboss, outerRadius, bodyHeight, params.emboss.mode);
+    console.log('[Label] Result:', label ? 'got manifold' : 'null');
+    if (label) {
+      const preVerts = body.getMesh().numVert;
+      body = applyLabel(wasm, body, label, params.emboss.mode);
+      const postVerts = body.getMesh().numVert;
+      console.log(`[Label] Boolean applied: ${preVerts} -> ${postVerts} verts`);
+      label.delete();
+    }
   }
 
   // --- Build Neck Zone ---

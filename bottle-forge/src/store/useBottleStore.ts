@@ -90,6 +90,8 @@ const defaultParams: BottleParams = {
     fontSize: 8,
     depth: 0.5,
     verticalPosition: 0.5,
+    orientation: 'wrap',
+    mode: 'engrave',
   },
 
   // Display

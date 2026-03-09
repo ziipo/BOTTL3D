@@ -7,6 +7,14 @@ import { createZipArchive } from './zipWriter';
 
 let wasm: ManifoldToplevel | null = null;
 
+// Forward worker console to main thread for debugging
+const _origLog = console.log;
+const _origErr = console.error;
+const _origWarn = console.warn;
+console.log = (...args: unknown[]) => { _origLog(...args); self.postMessage({ type: 'debug', msg: args.map(String).join(' ') }); };
+console.error = (...args: unknown[]) => { _origErr(...args); self.postMessage({ type: 'debug', msg: '[ERROR] ' + args.map(String).join(' ') }); };
+console.warn = (...args: unknown[]) => { _origWarn(...args); self.postMessage({ type: 'debug', msg: '[WARN] ' + args.map(String).join(' ') }); };
+
 /**
  * Initialize the Manifold WASM module.
  */
@@ -41,7 +49,7 @@ async function handleGenerate(params: BottleParams): Promise<void> {
     const manifoldModule = await initWasm();
 
     sendProgress('Generating bottle geometry...', 30);
-    const result = generateBottle(manifoldModule, params);
+    const result = await generateBottle(manifoldModule, params);
 
     sendProgress('Preparing mesh data...', 60);
 
@@ -151,7 +159,7 @@ async function handleGenerate(params: BottleParams): Promise<void> {
 async function handleCrossSection(params: BottleParams): Promise<void> {
   try {
     const manifoldModule = await initWasm();
-    const result = generateBottle(manifoldModule, params);
+    const result = await generateBottle(manifoldModule, params);
     const svg = generateCrossSectionSVG(manifoldModule, result.bottleManifold, result.lidManifold);
 
     const response: WorkerResponse = {

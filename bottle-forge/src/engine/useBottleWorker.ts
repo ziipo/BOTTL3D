@@ -31,8 +31,15 @@ export function useBottleWorker() {
     const worker = new Worker(WorkerUrl, { type: 'module' });
     workerRef.current = worker;
 
-    worker.onmessage = (event: MessageEvent<WorkerResponse>) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    worker.onmessage = (event: MessageEvent<WorkerResponse | any>) => {
       const response = event.data;
+
+      // Forward worker debug logs to page console
+      if (response.type === 'debug') {
+        console.log('[Worker]', response.msg);
+        return;
+      }
 
       switch (response.type) {
         case 'result':
