@@ -117,38 +117,38 @@ export function textToPolygons(
         if (current.length > 2) {
           contours.push(current);
         }
-        current = [[cmd.x, cmd.y]]; 
+        current = [[cmd.x, -cmd.y]]; 
         curX = cmd.x;
-        curY = cmd.y;
+        curY = -cmd.y;
         break;
 
       case 'L':
-        current.push([cmd.x, cmd.y]);
+        current.push([cmd.x, -cmd.y]);
         curX = cmd.x;
-        curY = cmd.y;
+        curY = -cmd.y;
         break;
 
       case 'C':
         discretizeCubic(
           curX, curY,
-          cmd.x1, cmd.y1,
-          cmd.x2, cmd.y2,
-          cmd.x, cmd.y,
+          cmd.x1, -cmd.y1,
+          cmd.x2, -cmd.y2,
+          cmd.x, -cmd.y,
           current
         );
         curX = cmd.x;
-        curY = cmd.y;
+        curY = -cmd.y;
         break;
 
       case 'Q':
         discretizeQuadratic(
           curX, curY,
-          cmd.x1, cmd.y1,
-          cmd.x, cmd.y,
+          cmd.x1, -cmd.y1,
+          cmd.x, -cmd.y,
           current
         );
         curX = cmd.x;
-        curY = cmd.y;
+        curY = -cmd.y;
         break;
 
       case 'Z':
@@ -166,18 +166,13 @@ export function textToPolygons(
   }
 
   // Opentype fonts typically give CW outer contours (TrueType convention).
-  // Manifold CrossSection needs CCW outers and CW holes.
-  // Detect and flip: outer contours (larger area) should be CCW (positive area).
+  // Flipping the Y axis naturally converts outer contours to CCW and holes to CW,
+  // which perfectly matches Manifold CrossSection's EvenOdd requirement.
   const result: Vec2[][] = [];
   for (const contour of contours) {
     const area = signedArea(contour);
     if (area === 0) continue; // degenerate
 
-    // Manifold CrossSection wants CCW (positive area) for outer contours.
-    // If area is negative, it's CW; reverse it to make it CCW.
-    if (area < 0) {
-      contour.reverse();
-    }
     result.push(contour);
   }
 

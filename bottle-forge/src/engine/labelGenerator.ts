@@ -75,17 +75,16 @@ export async function generateLabel(
 
   // --- Cylindrical warp ---
   // The flat text mesh has:
-  //   X = horizontal position (will map to angle around cylinder)
-  //   Y = vertical position (will map to Z height on bottle)
-  //   Z = depth (will map to radial offset from surface)
+  //   X = horizontal position
+  //   Y = vertical position
+  //   Z = depth
   const R = bodyRadius;
   const overlap = 0.3;
   const radialBase = mode === 'engrave' ? R - depth - overlap : R - overlap;
   const verticalCenter = emboss.verticalPosition * bodyHeight;
 
-  // Manifold Z is height. 
-  // In Wrap mode: X=horiz, Y=vert, Z=depth.
-  // In Vertical mode: X=horiz, Y=vert, Z=depth.
+  // Face the camera (-Math.PI / 2 puts center of text at Manifold Y = -R)
+  const thetaOffset = -Math.PI / 2;
   
   if (isWrap) {
     textSolid = textSolid.warp((v: [number, number, number]) => {
@@ -94,9 +93,9 @@ export async function generateLabel(
       const z = v[2];
 
       const r = radialBase + z * ((depth + 2 * overlap) / depth);
-      const theta = x / R;
-      v[0] = r * Math.sin(theta);
-      v[1] = r * Math.cos(theta);
+      const theta = x / R + thetaOffset;
+      v[0] = r * Math.cos(theta); // Use cos for X and sin for Y to preserve positive determinant (normals)
+      v[1] = r * Math.sin(theta);
       v[2] = y; // Map font Y to Manifold Z (height)
     });
   } else {
@@ -106,9 +105,9 @@ export async function generateLabel(
       const z = v[2];
 
       const r = radialBase + z * ((depth + 2 * overlap) / depth);
-      const theta = y / R;
-      v[0] = r * Math.sin(theta);
-      v[1] = r * Math.cos(theta);
+      const theta = y / R + thetaOffset;
+      v[0] = r * Math.cos(theta);
+      v[1] = r * Math.sin(theta);
       v[2] = -x; // Map font X to Manifold Z (height), flipped for top-to-bottom
     });
   }
