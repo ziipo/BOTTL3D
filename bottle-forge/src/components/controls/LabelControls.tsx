@@ -25,6 +25,27 @@ export function LabelControls() {
         />
       </div>
 
+      {/* Font Family */}
+      <div>
+        <label className="text-xs text-[var(--fg-muted)] mb-2 block">Font Style</label>
+        <div className="grid grid-cols-2 gap-1">
+          {(['Roboto', 'Pacifico', 'Patrick Hand', 'Arvo'] as const).map((font) => (
+            <button
+              key={font}
+              onClick={() => setEmboss({ fontFamily: font })}
+              style={{ fontFamily: font === 'Roboto' ? 'sans-serif' : font }}
+              className={`px-2 py-1.5 text-[10px] rounded transition-colors border ${
+                emboss.fontFamily === font
+                  ? 'bg-blue-600 text-white border-blue-500'
+                  : 'bg-[var(--bg-input)] text-[var(--fg-main)] border border-[var(--border-input)] hover:bg-[var(--bg-surface-elevated)]'
+              }`}
+            >
+              {font}
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* Orientation Toggle */}
       <div>
         <label className="text-xs text-[var(--fg-muted)] mb-2 block">Orientation</label>

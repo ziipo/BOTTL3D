@@ -41,6 +41,7 @@ export interface EmbossSettings {
   verticalPosition: number; // 0..1 position on body height
   orientation: 'wrap' | 'vertical'; // wrap = text flows around circumference, vertical = runs top-to-bottom
   mode: 'engrave' | 'emboss'; // engrave = cut into surface, emboss = raised
+  fontFamily: 'Roboto' | 'Pacifico' | 'Patrick Hand' | 'Arvo';
 }
 
 // === Bottle Parameters ===

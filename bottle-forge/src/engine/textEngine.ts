@@ -2,31 +2,42 @@ import opentype from 'opentype.js';
 import type { Vec2 } from 'manifold-3d';
 
 /**
- * Parsed font ready for text→polygon conversion.
+ * Parsed fonts ready for text→polygon conversion.
  */
-let cachedFont: opentype.Font | null = null;
-let fontLoadPromise: Promise<opentype.Font> | null = null;
+const fontCache = new Map<string, opentype.Font>();
+const fontLoadPromises = new Map<string, Promise<opentype.Font>>();
+
+const FONT_MAP = {
+  'Roboto': 'Roboto-Bold.ttf',
+  'Pacifico': 'Pacifico-Regular.ttf',
+  'Patrick Hand': 'PatrickHand-Regular.ttf',
+  'Arvo': 'Arvo-Bold.ttf'
+};
 
 /**
- * Load and cache the bundled font file.
- * In a worker context, uses fetch + parse(ArrayBuffer).
+ * Load and cache a font file.
  */
-export async function loadFont(fontUrl: string = `${import.meta.env.BASE_URL}fonts/Roboto-Bold.ttf`): Promise<opentype.Font> {
-  if (cachedFont) return cachedFont;
-  if (fontLoadPromise) return fontLoadPromise;
+export async function loadFont(family: keyof typeof FONT_MAP = 'Roboto'): Promise<opentype.Font> {
+  const fileName = FONT_MAP[family];
+  const fontUrl = `${import.meta.env.BASE_URL}fonts/${fileName}`;
+  
+  if (fontCache.has(family)) return fontCache.get(family)!;
+  if (fontLoadPromises.has(family)) return fontLoadPromises.get(family)!;
 
-  fontLoadPromise = (async () => {
+  const promise = (async () => {
     const response = await fetch(fontUrl);
     if (!response.ok) {
-      fontLoadPromise = null;
+      fontLoadPromises.delete(family);
       throw new Error(`Failed to load font: ${response.status} ${response.statusText} (${fontUrl})`);
     }
     const buffer = await response.arrayBuffer();
-    cachedFont = opentype.parse(buffer);
-    return cachedFont;
+    const font = opentype.parse(buffer);
+    fontCache.set(family, font);
+    return font;
   })();
 
-  return fontLoadPromise;
+  fontLoadPromises.set(family, promise);
+  return promise;
 }
 
 /**

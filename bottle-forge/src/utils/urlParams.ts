@@ -35,6 +35,7 @@ export function encodeParams(params: BottleParams): string {
     ev: Math.round(params.emboss.verticalPosition * 100) / 100,
     eo: params.emboss.orientation,
     em: params.emboss.mode,
+    efn: params.emboss.fontFamily,
   };
 
   // Custom profile points
@@ -107,6 +108,7 @@ export function decodeParams(hash: string): Partial<BottleParams> | null {
         verticalPosition: data.ev ?? 0.5,
         orientation: data.eo === 'vertical' ? 'vertical' : 'wrap',
         mode: data.em === 'emboss' ? 'emboss' : 'engrave',
+        fontFamily: (['Roboto', 'Pacifico', 'Patrick Hand', 'Arvo'] as const).includes(data.efn) ? data.efn : 'Roboto',
       };
     }
 

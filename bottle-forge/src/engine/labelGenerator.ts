@@ -27,7 +27,7 @@ export async function generateLabel(
   if (!emboss.text || emboss.text.length === 0) return null;
 
   const text = emboss.text.slice(0, MAX_LABEL_CHARS);
-  const font = await loadFont();
+  const font = await loadFont(emboss.fontFamily);
 
   const fontSize = emboss.fontSize;
   const depth = emboss.depth;

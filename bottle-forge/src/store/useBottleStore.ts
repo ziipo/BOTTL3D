@@ -92,6 +92,7 @@ const defaultParams: BottleParams = {
     verticalPosition: 0.5,
     orientation: 'wrap',
     mode: 'engrave',
+    fontFamily: 'Roboto',
   },
 
   // Display
