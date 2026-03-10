@@ -134,14 +134,14 @@ export function generateCrossSectionSVG(
  * x = radial distance (was X in 3D) and y = height (was Z in 3D).
  */
 function extractRadialCrossSection(
-  wasm: ManifoldToplevel,
+  _wasm: ManifoldToplevel,
   manifold: Manifold
 ): [number, number][][] {
   // Get bounding box to know the Z range
   const bbox = manifold.boundingBox();
   const zMin = bbox.min[2];
   const zMax = bbox.max[2];
-  const xMax = Math.max(Math.abs(bbox.min[0]), Math.abs(bbox.max[0]));
+
 
   if (zMax - zMin < 0.01) return [];
 

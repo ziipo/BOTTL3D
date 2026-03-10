@@ -112,9 +112,6 @@ export function textToPolygons(
   fontSize: number,
   font: opentype.Font
 ): Vec2[][] {
-  // opentype uses 72 DPI internally; we scale to mm
-  const scale = fontSize / font.unitsPerEm;
-
   const path = font.getPath(text, 0, 0, fontSize);
   const contours: Vec2[][] = [];
   let current: Vec2[] = [];
