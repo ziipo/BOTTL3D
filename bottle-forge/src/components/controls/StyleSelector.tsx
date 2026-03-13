@@ -18,10 +18,10 @@ export function StyleSelector() {
         <button
           key={opt.value}
           onClick={() => setParam('bodyStyle', opt.value as BodyStyle)}
-          className={`flex-1 px-3 py-1.5 text-xs rounded transition-colors ${
+          className={`flex-1 px-3 py-1.5 text-[10px] font-bold transition-all border font-technical uppercase tracking-wider ${
             bodyStyle === opt.value
-              ? 'bg-blue-600 text-white'
-              : 'bg-[var(--bg-input)] text-[var(--fg-main)] border border-[var(--border-input)] hover:bg-[var(--bg-surface-elevated)]'
+              ? 'bg-[var(--color-primary)] text-[var(--bg-app)] border-[var(--color-primary)]'
+              : 'bg-[var(--bg-input)] text-[var(--fg-main)] border-[var(--border-input)] hover:border-[var(--fg-muted)]'
           }`}
         >
           {opt.label}

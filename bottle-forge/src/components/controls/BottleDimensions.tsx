@@ -26,7 +26,7 @@ export function BottleDimensions() {
       <div>
         <div className="flex justify-between text-xs mb-1">
           <label className="text-[var(--fg-muted)]">Body Diameter</label>
-          <span className="text-[var(--fg-main)] font-mono">
+          <span className="text-[var(--fg-main)] font-technical">
             {formatDimension(outerDiameter, displayUnit)}
           </span>
         </div>
@@ -37,7 +37,7 @@ export function BottleDimensions() {
           step={displayUnit === 'in' ? 0.1 : 1}
           value={convertToUnit(outerDiameter, displayUnit)}
           onChange={handleBodyDiameterChange}
-          className="w-full accent-blue-500"
+          className="w-full accent-[var(--color-primary)]"
         />
       </div>
 
@@ -45,7 +45,7 @@ export function BottleDimensions() {
       <div>
         <div className="flex justify-between text-xs mb-1">
           <label className="text-[var(--fg-muted)]">Overall Height</label>
-          <span className="text-[var(--fg-main)] font-mono">
+          <span className="text-[var(--fg-main)] font-technical">
             {formatDimension(overallHeight, displayUnit)}
           </span>
         </div>
@@ -56,7 +56,7 @@ export function BottleDimensions() {
           step={displayUnit === 'in' ? 0.1 : 1}
           value={convertToUnit(overallHeight, displayUnit)}
           onChange={(e) => setParam('overallHeight', convertFromUnit(parseFloat(e.target.value), displayUnit))}
-          className="w-full accent-blue-500"
+          className="w-full accent-[var(--color-primary)]"
         />
       </div>
 
@@ -64,7 +64,7 @@ export function BottleDimensions() {
       <div>
         <div className="flex justify-between text-xs mb-1">
           <label className="text-[var(--fg-muted)]">Wall Thickness</label>
-          <span className="text-[var(--fg-main)] font-mono">
+          <span className="text-[var(--fg-main)] font-technical">
             {formatDimension(wallThickness, displayUnit)}
           </span>
         </div>
@@ -75,7 +75,7 @@ export function BottleDimensions() {
           step={displayUnit === 'in' ? 0.05 : 0.5}
           value={convertToUnit(wallThickness, displayUnit)}
           onChange={(e) => setParam('wallThickness', convertFromUnit(parseFloat(e.target.value), displayUnit))}
-          className="w-full accent-blue-500"
+          className="w-full accent-[var(--color-primary)]"
         />
       </div>
 
@@ -84,7 +84,7 @@ export function BottleDimensions() {
         <span className="text-xs text-[var(--fg-muted)]">Units:</span>
         <button
           onClick={() => setParam('displayUnit', displayUnit === 'mm' ? 'in' : 'mm')}
-          className="px-2 py-0.5 text-xs rounded border border-[var(--border-input)] bg-[var(--bg-input)] hover:bg-[var(--bg-surface-elevated)] text-[var(--fg-main)] transition-colors"
+          className="px-2 py-0.5 text-xs border border-[var(--border-input)] bg-[var(--bg-input)] hover:bg-[var(--bg-surface-elevated)] text-[var(--fg-main)] transition-colors font-technical"
         >
           {displayUnit === 'mm' ? 'mm' : 'in'}
         </button>

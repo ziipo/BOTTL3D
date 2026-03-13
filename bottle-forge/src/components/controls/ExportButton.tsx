@@ -54,8 +54,8 @@ export function ExportButton() {
     downloadAllZip(zipData, outerDiameter, overallHeight, profileName);
   };
 
-  const btnBase = 'flex-1 py-2 px-3 rounded font-medium text-xs transition-colors';
-  const btnEnabled = 'bg-blue-600 hover:bg-blue-500 text-white shadow-sm';
+  const btnBase = 'flex-1 py-2 px-3 font-medium text-xs transition-colors';
+  const btnEnabled = 'bg-[var(--color-primary)] text-[var(--bg-app)] shadow-sm';
   const btnSecondary = 'bg-[var(--bg-sidebar)] border border-[var(--border-main)] hover:bg-[var(--bg-app)] text-[var(--fg-main)] shadow-sm';
   const btnDisabled = 'bg-[var(--bg-input)] text-[var(--fg-muted)] cursor-not-allowed';
 
@@ -113,7 +113,7 @@ export function ExportButton() {
         <button
           onClick={handleExportAllZip}
           disabled={isDisabled}
-          className={`w-full py-2 px-3 rounded font-medium text-xs transition-colors ${
+          className={`w-full py-2 px-3 font-medium text-xs transition-colors ${
             isDisabled ? btnDisabled : 'bg-[var(--bg-input)] border border-[var(--border-input)] hover:bg-[var(--bg-sidebar)] text-[var(--fg-main)] shadow-sm'
           }`}
         >

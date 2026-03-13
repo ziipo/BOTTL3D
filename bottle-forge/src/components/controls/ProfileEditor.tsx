@@ -246,7 +246,7 @@ export function ProfileEditor() {
         ref={svgRef}
         width={SVG_W}
         height={SVG_H}
-        className="bg-[var(--bg-sidebar)] rounded border border-[var(--border-input)] cursor-crosshair select-none transition-colors"
+        className="bg-[var(--bg-sidebar)] border border-[var(--border-input)] cursor-crosshair select-none transition-colors"
         onPointerDown={handleSvgPointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
@@ -260,6 +260,7 @@ export function ProfileEditor() {
             stroke="currentColor"
             className="text-[var(--border-input)]"
             strokeWidth={0.5}
+            opacity={0.3}
           />
         ))}
 
@@ -274,20 +275,20 @@ export function ProfileEditor() {
         {/* Centerline (axis of revolution) */}
         <line
           x1={PAD} y1={centerY} x2={PAD + PLOT_W} y2={centerY}
-          stroke="#ef4444" strokeWidth={1} strokeDasharray="4,3" opacity={0.5}
+          stroke="currentColor" strokeWidth={1} strokeDasharray="4,3" className="text-[var(--fg-muted)]" opacity={0.5}
         />
 
         {/* Axis labels */}
-        <text x={PAD} y={SVG_H - 2} fill="currentColor" className="text-[var(--fg-muted)]" fontSize={8} textAnchor="middle">
-          bottom
+        <text x={PAD} y={SVG_H - 2} fill="currentColor" className="text-[var(--fg-muted)] font-technical" fontSize={8} textAnchor="middle">
+          BOTTOM
         </text>
-        <text x={PAD + PLOT_W} y={SVG_H - 2} fill="currentColor" className="text-[var(--fg-muted)]" fontSize={8} textAnchor="middle">
-          top
+        <text x={PAD + PLOT_W} y={SVG_H - 2} fill="currentColor" className="text-[var(--fg-muted)] font-technical" fontSize={8} textAnchor="middle">
+          TOP
         </text>
-        <text x={8} y={PAD + PLOT_H} fill="currentColor" className="text-[var(--fg-muted)]" fontSize={8} textAnchor="middle">
+        <text x={8} y={PAD + PLOT_H} fill="currentColor" className="text-[var(--fg-muted)] font-technical" fontSize={8} textAnchor="middle">
           0
         </text>
-        <text x={8} y={PAD + 4} fill="currentColor" className="text-[var(--fg-muted)]" fontSize={8} textAnchor="middle">
+        <text x={8} y={PAD + 4} fill="currentColor" className="text-[var(--fg-muted)] font-technical" fontSize={8} textAnchor="middle">
           R
         </text>
 
@@ -295,18 +296,18 @@ export function ProfileEditor() {
         <rect
           x={PAD + PLOT_W - 8} y={PAD}
           width={8} height={PLOT_H}
-          fill="#f59e0b" opacity={0.1}
+          fill="currentColor" className="text-[var(--color-primary)]" opacity={0.1}
         />
-        <text x={PAD + PLOT_W - 4} y={PAD + 10} fill="#f59e0b" fontSize={7} textAnchor="middle" opacity={0.6}>
+        <text x={PAD + PLOT_W - 4} y={PAD + 10} fill="currentColor" className="text-[var(--color-primary)] font-technical" fontSize={7} textAnchor="middle" opacity={0.6}>
           N
         </text>
 
         {/* Profile shape fill */}
-        <path d={shapePath} fill="#3b82f6" opacity={0.25} />
+        <path d={shapePath} fill="currentColor" className="text-[var(--color-primary)]" opacity={0.15} />
 
         {/* Profile curve stroke */}
         {strokePath && (
-          <path d={strokePath} fill="none" stroke="#3b82f6" strokeWidth={2} />
+          <path d={strokePath} fill="none" stroke="currentColor" className="text-[var(--color-primary)]" strokeWidth={2} />
         )}
 
         {/* Handle lines and dots */}
@@ -324,22 +325,23 @@ export function ProfileEditor() {
             <g key={`handle-${i}`}>
               <line
                 x1={inX} y1={inY} x2={outX} y2={outY}
-                stroke="#a78bfa" strokeWidth={1} opacity={0.6}
+                stroke="currentColor" strokeWidth={1} opacity={0.4}
+                className="text-[var(--fg-muted)]"
                 style={{ pointerEvents: 'none' }}
               />
               <circle
                 cx={outX} cy={outY} r={HANDLE_R}
-                fill={isActive ? '#c4b5fd' : '#a78bfa'}
-                stroke="#7c3aed" strokeWidth={1}
-                className="cursor-grab active:cursor-grabbing"
+                fill="currentColor"
+                className={`cursor-grab active:cursor-grabbing ${isActive ? 'text-[var(--fg-main)]' : 'text-[var(--fg-muted)]'}`}
+                stroke="currentColor" strokeWidth={1}
                 onPointerDown={(e) => handleHandlePointerDown(e, i)}
                 onDoubleClick={(e) => handleHandleDoubleClick(e, i)}
               />
               <circle
                 cx={inX} cy={inY} r={HANDLE_R}
-                fill={isActive ? '#c4b5fd' : '#a78bfa'}
-                stroke="#7c3aed" strokeWidth={1}
-                className="cursor-grab active:cursor-grabbing"
+                fill="currentColor"
+                className={`cursor-grab active:cursor-grabbing ${isActive ? 'text-[var(--fg-main)]' : 'text-[var(--fg-muted)]'}`}
+                stroke="currentColor" strokeWidth={1}
                 onPointerDown={(e) => handleHandlePointerDown(e, i)}
                 onDoubleClick={(e) => handleHandleDoubleClick(e, i)}
               />
@@ -356,10 +358,10 @@ export function ProfileEditor() {
             <circle
               key={i}
               cx={s.x} cy={s.y} r={POINT_R}
-              fill={isActive ? '#60a5fa' : '#3b82f6'}
-              stroke={isEndpoint ? '#f59e0b' : '#93c5fd'}
+              fill="currentColor"
+              className={`cursor-grab active:cursor-grabbing ${isActive ? 'text-[var(--fg-main)]' : 'text-[var(--color-primary)]'}`}
+              stroke="currentColor"
               strokeWidth={isEndpoint ? 2 : 1.5}
-              className="cursor-grab active:cursor-grabbing"
               onPointerDown={(e) => handleAnchorPointerDown(e, i)}
               onContextMenu={(e) => handleContextMenu(e, i)}
             />
@@ -367,11 +369,8 @@ export function ProfileEditor() {
         })}
       </svg>
 
-      <p className="text-[10px] text-[var(--fg-muted)] mt-1">
-        Click to add · Drag to add curve · Drag point to move · Right-click to delete
-      </p>
-      <p className="text-[10px] text-[var(--fg-muted)]">
-        Drag handle to adjust curve · Double-click handle to remove
+      <p className="text-[9px] text-[var(--fg-muted)] mt-1 font-technical uppercase tracking-wider">
+        CLICK TO ADD · DRAG TO CURVE · DRAG POINT TO MOVE · RIGHT-CLICK TO DELETE
       </p>
     </div>
   );

@@ -82,7 +82,7 @@ function ResetViewButton() {
   return (
     <button
       onClick={requestResetView}
-      className="absolute bottom-4 right-4 bg-[var(--bg-sidebar)] border border-[var(--border-main)] hover:bg-[var(--bg-app)] text-[var(--fg-main)] p-2 rounded-full shadow-lg transition-colors z-20"
+      className="absolute bottom-4 right-4 bg-[var(--bg-sidebar)] border border-[var(--border-main)] hover:bg-[var(--bg-app)] text-[var(--fg-main)] p-2 shadow-lg transition-colors z-20"
       title="Reset View"
     >
       <svg
@@ -104,37 +104,33 @@ function ResetViewButton() {
 
 function Scene() {
   const theme = useBottleStore((s) => s.theme);
-  const bgColor = theme === 'dark' ? '#121212' : '#f5f5f5';
-  const gridColor = theme === 'dark' ? '#404040' : '#cccccc';
-  const sectionColor = theme === 'dark' ? '#505050' : '#aaaaaa';
+  
+  // Vellum (Light) vs Deep Draft (Dark)
+  const bgColor = theme === 'dark' ? '#0A192F' : '#EBF3FF';
+  const gridColor = theme === 'dark' ? '#64FFDA' : '#00509E';
+  const gridOpacity = theme === 'dark' ? 0.05 : 0.1;
 
   return (
     <>
       <color attach="background" args={[bgColor]} />
-      <ambientLight intensity={theme === 'dark' ? 0.4 : 0.7} />
-      <directionalLight
-        position={[10, 20, 10]}
-        intensity={theme === 'dark' ? 1 : 1.2}
-        castShadow
-        shadow-mapSize={[2048, 2048]}
-      />
-      <directionalLight
-        position={[-10, 10, -10]}
-        intensity={theme === 'dark' ? 0.3 : 0.5}
-      />
+      <ambientLight intensity={theme === 'dark' ? 0.5 : 0.8} />
+      <pointLight position={[100, 100, 100]} intensity={1.5} castShadow />
+      <pointLight position={[-100, 100, -100]} intensity={0.5} />
 
       <Grid
-        args={[300, 300]}
-        cellSize={10}
-        cellThickness={0.5}
+        args={[400, 400]}
+        cellSize={40}
+        cellThickness={1}
         cellColor={gridColor}
-        sectionSize={50}
+        sectionSize={40}
         sectionThickness={1}
-        sectionColor={sectionColor}
-        fadeDistance={400}
+        sectionColor={gridColor}
+        fadeDistance={1000}
         fadeStrength={1}
         followCamera={false}
         infiniteGrid
+        opacity={gridOpacity}
+        transparent
       />
 
       {/* Rotate -90° around X to convert Manifold's Z-up to Three.js Y-up.
@@ -167,12 +163,12 @@ function LoadingOverlay() {
 
   return (
     <div className="absolute inset-0 flex items-center justify-center bg-black/30 backdrop-blur-[1px] z-10">
-      <div className="bg-[var(--bg-sidebar)] border border-[var(--border-main)] rounded-lg p-6 shadow-xl">
+      <div className="bg-[var(--bg-sidebar)] border border-[var(--border-main)] p-6 shadow-xl">
         <div className="flex items-center gap-3">
-          <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+          <div className="w-6 h-6 border-2 border-[var(--color-primary)] border-t-transparent animate-spin" />
           <div>
             <div className="text-[var(--fg-main)] font-medium">{progressStage || 'Generating...'}</div>
-            <div className="text-[var(--fg-muted)] text-sm">{progress}%</div>
+            <div className="text-[var(--fg-muted)] text-sm font-technical">{progress}%</div>
           </div>
         </div>
       </div>
@@ -187,9 +183,9 @@ function ErrorOverlay() {
 
   return (
     <div className="absolute inset-0 flex items-center justify-center bg-black/50 z-10">
-      <div className="bg-red-900/90 rounded-lg p-6 shadow-xl max-w-md">
+      <div className="bg-red-900/90 border border-red-500 p-6 shadow-xl max-w-md">
         <div className="text-red-200 font-medium mb-2">Generation Error</div>
-        <div className="text-red-100 text-sm">{error}</div>
+        <div className="text-red-100 text-sm font-technical">{error}</div>
       </div>
     </div>
   );

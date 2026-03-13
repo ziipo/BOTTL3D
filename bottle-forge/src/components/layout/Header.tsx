@@ -22,29 +22,30 @@ export function Header() {
   };
 
   return (
-    <header className="h-14 bg-[var(--bg-sidebar)] border-b border-[var(--border-main)] flex items-center justify-between px-4 flex-shrink-0 transition-colors">
+    <header className="h-14 bg-[var(--bg-sidebar)] border-b border-[var(--border-main)] flex items-center justify-between px-4 flex-shrink-0 transition-colors duration-200">
       <div className="flex items-center gap-2">
         <svg
-          className="w-8 h-8 text-blue-500"
+          className="w-8 h-8 text-[var(--color-primary)]"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
         >
-          {/* Bottle icon */}
-          <path d="M9 2h6v3H9z" strokeLinejoin="round" />
-          <path d="M7 5h10l1 4v11a2 2 0 01-2 2H8a2 2 0 01-2-2V9l1-4z" strokeLinejoin="round" />
+          {/* Bottle icon - simplified to match architectural style */}
+          <path d="M9 2h6v3H9z" />
+          <path d="M7 5h10l1 4v11H6V9l1-4z" />
         </svg>
-        <h1 className="text-xl font-semibold text-[var(--fg-main)]">BOTTL3D</h1>
-        <span className="text-xs text-[var(--fg-muted)] hidden sm:inline">
+        <h1 className="text-xl font-semibold text-[var(--fg-main)] tracking-tight">BOTTL3D</h1>
+        <div className="h-4 w-[1px] bg-[var(--border-main)] mx-2 hidden sm:block" />
+        <span className="text-xs text-[var(--fg-muted)] hidden sm:inline uppercase tracking-widest font-medium">
           3D-Printable Bottle Generator
         </span>
       </div>
       <div className="flex items-center gap-2">
         <button
           onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-          className="p-2 rounded-md transition-colors hover:bg-[var(--bg-app)] text-[var(--fg-muted)] hover:text-[var(--fg-main)]"
-          title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+          className="p-2 border border-transparent hover:border-[var(--border-main)] transition-all text-[var(--fg-muted)] hover:text-[var(--fg-main)]"
+          aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
         >
           {theme === 'dark' ? (
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -59,10 +60,10 @@ export function Header() {
 
         <button
           onClick={handleShare}
-          className={`px-3 py-1.5 text-sm rounded-md transition-colors flex items-center gap-1.5 ${
+          className={`px-4 py-1.5 text-sm font-medium border border-[var(--border-main)] transition-all flex items-center gap-2 uppercase tracking-wide ${
             copied
-              ? 'bg-green-600 text-white'
-              : 'bg-blue-600 hover:bg-blue-500 text-white'
+              ? 'bg-green-600 border-green-600 text-white'
+              : 'bg-[var(--color-primary)] text-[var(--bg-app)] hover:brightness-110'
           }`}
         >
           {copied ? (

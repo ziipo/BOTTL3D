@@ -26,12 +26,12 @@ export function LidControls() {
           <span className="text-xs text-[var(--fg-muted)]">Custom Neck Diameter</span>
           <button
             onClick={() => setParam('neckDiameterAuto', !neckDiameterAuto)}
-            className={`relative inline-flex h-4 w-8 items-center rounded-full transition-colors focus:outline-none ${
-              !neckDiameterAuto ? 'bg-blue-600' : 'bg-[var(--bg-input)]'
+            className={`relative inline-flex h-4 w-8 items-center transition-colors focus:outline-none border border-[var(--border-input)] ${
+              !neckDiameterAuto ? 'bg-[var(--color-primary)]' : 'bg-[var(--bg-input)]'
             }`}
           >
             <span
-              className={`inline-block h-2.5 w-2.5 transform rounded-full bg-white transition-transform ${
+              className={`inline-block h-2.5 w-2.5 transform bg-white transition-transform ${
                 !neckDiameterAuto ? 'translate-x-4.5' : 'translate-x-1'
               }`}
             />
@@ -46,7 +46,7 @@ export function LidControls() {
           <div>
             <div className="flex justify-between text-xs mb-1">
               <label className="text-[var(--fg-muted)]">Neck Diameter</label>
-              <span className="text-[var(--fg-main)] font-mono">
+              <span className="text-[var(--fg-main)] font-technical">
                 {formatDimension(neckDiameter, displayUnit)}
               </span>
             </div>
@@ -61,7 +61,7 @@ export function LidControls() {
                 const minNeck = wallThickness * 2 + 1;
                 setParam('neckDiameter', Math.max(minNeck, Math.min(newNeck, outerDiameter)));
               }}
-              className="w-full accent-blue-500"
+              className="w-full accent-[var(--color-primary)]"
             />
           </div>
         )}
@@ -73,9 +73,9 @@ export function LidControls() {
         <div className="flex gap-1">
           <button
             onClick={() => setParam('lidType', 'slip-on')}
-            className={`flex-1 px-3 py-1.5 text-xs rounded transition-colors ${
+            className={`flex-1 px-3 py-1.5 text-xs transition-colors ${
               lidType === 'slip-on'
-                ? 'bg-blue-600 text-white'
+                ? 'bg-[var(--color-primary)] text-[var(--bg-app)]'
                 : 'bg-[var(--bg-input)] text-[var(--fg-main)] border border-[var(--border-input)] hover:bg-[var(--bg-surface-elevated)]'
             }`}
           >
@@ -83,9 +83,9 @@ export function LidControls() {
           </button>
           <button
             onClick={() => setParam('lidType', 'screw-on')}
-            className={`flex-1 px-3 py-1.5 text-xs rounded transition-colors ${
+            className={`flex-1 px-3 py-1.5 text-xs transition-colors ${
               lidType === 'screw-on'
-                ? 'bg-blue-600 text-white'
+                ? 'bg-[var(--color-primary)] text-[var(--bg-app)]'
                 : 'bg-[var(--bg-input)] text-[var(--fg-main)] border border-[var(--border-input)] hover:bg-[var(--bg-surface-elevated)]'
             }`}
           >
@@ -98,7 +98,7 @@ export function LidControls() {
       <div>
         <div className="flex justify-between text-xs mb-1">
           <label className="text-[var(--fg-muted)]">Lid Height</label>
-          <span className="text-[var(--fg-main)] font-mono">
+          <span className="text-[var(--fg-main)] font-technical">
             {formatDimension(lidHeight, displayUnit)}
           </span>
         </div>
@@ -109,7 +109,7 @@ export function LidControls() {
           step={1}
           value={lidHeight}
           onChange={(e) => setParam('lidHeight', parseFloat(e.target.value))}
-          className="w-full accent-blue-500"
+          className="w-full accent-[var(--color-primary)]"
         />
       </div>
 
@@ -119,7 +119,7 @@ export function LidControls() {
           <label className="text-[var(--fg-muted)]">
             {lidType === 'slip-on' ? 'Slip-On Clearance' : 'Thread Clearance'}
           </label>
-          <span className="text-[var(--fg-main)] font-mono">
+          <span className="text-[var(--fg-main)] font-technical">
             {slipOnClearance.toFixed(2)} mm
           </span>
         </div>
@@ -130,7 +130,7 @@ export function LidControls() {
           step={0.05}
           value={slipOnClearance}
           onChange={(e) => setParam('slipOnClearance', parseFloat(e.target.value))}
-          className="w-full accent-blue-500"
+          className="w-full accent-[var(--color-primary)]"
         />
       </div>
 
@@ -160,7 +160,7 @@ export function LidControls() {
               <div>
                 <div className="flex justify-between text-xs mb-1">
                   <label className="text-[var(--fg-muted)]">Pitch</label>
-                  <span className="text-[var(--fg-main)] font-mono">{thread.pitch.toFixed(1)} mm</span>
+                  <span className="text-[var(--fg-main)] font-technical">{thread.pitch.toFixed(1)} mm</span>
                 </div>
                 <input
                   type="range"
@@ -169,7 +169,7 @@ export function LidControls() {
                   step={0.5}
                   value={thread.pitch}
                   onChange={(e) => setThread({ pitch: parseFloat(e.target.value) })}
-                  className="w-full accent-blue-500"
+                  className="w-full accent-[var(--color-primary)]"
                 />
                 <div className="flex justify-between text-[10px] text-[var(--fg-muted)] mt-0.5">
                   <span>Fine (1.5)</span>
@@ -181,7 +181,7 @@ export function LidControls() {
               <div>
                 <div className="flex justify-between text-xs mb-1">
                   <label className="text-[var(--fg-muted)]">Turns</label>
-                  <span className="text-[var(--fg-main)] font-mono">{thread.turns}</span>
+                  <span className="text-[var(--fg-main)] font-technical">{thread.turns}</span>
                 </div>
                 <input
                   type="range"
@@ -190,7 +190,7 @@ export function LidControls() {
                   step={1}
                   value={thread.turns}
                   onChange={(e) => setThread({ turns: parseInt(e.target.value) })}
-                  className="w-full accent-blue-500"
+                  className="w-full accent-[var(--color-primary)]"
                 />
               </div>
 
@@ -198,7 +198,7 @@ export function LidControls() {
               <div>
                 <div className="flex justify-between text-xs mb-1">
                   <label className="text-[var(--fg-muted)]">Thread Depth</label>
-                  <span className="text-[var(--fg-main)] font-mono">{thread.depth.toFixed(1)} mm</span>
+                  <span className="text-[var(--fg-main)] font-technical">{thread.depth.toFixed(1)} mm</span>
                 </div>
                 <input
                   type="range"
@@ -207,7 +207,7 @@ export function LidControls() {
                   step={0.1}
                   value={thread.depth}
                   onChange={(e) => setThread({ depth: parseFloat(e.target.value) })}
-                  className="w-full accent-blue-500"
+                  className="w-full accent-[var(--color-primary)]"
                 />
               </div>
 
@@ -215,7 +215,7 @@ export function LidControls() {
               <div>
                 <div className="flex justify-between text-xs mb-1">
                   <label className="text-[var(--fg-muted)]">Fit Clearance</label>
-                  <span className="text-[var(--fg-main)] font-mono">{thread.clearance.toFixed(2)} mm</span>
+                  <span className="text-[var(--fg-main)] font-technical">{thread.clearance.toFixed(2)} mm</span>
                 </div>
                 <input
                   type="range"
@@ -224,7 +224,7 @@ export function LidControls() {
                   step={0.05}
                   value={thread.clearance}
                   onChange={(e) => setThread({ clearance: parseFloat(e.target.value) })}
-                  className="w-full accent-blue-500"
+                  className="w-full accent-[var(--color-primary)]"
                 />
                 <p className="text-[10px] text-[var(--fg-muted)] mt-1">
                   Lower = tighter fit. 0.3mm recommended for FDM.
@@ -240,12 +240,12 @@ export function LidControls() {
         <span className="text-xs text-[var(--fg-muted)]">Exploded View</span>
         <button
           onClick={() => setParam('showExploded', !showExploded)}
-          className={`relative inline-flex h-4 w-8 items-center rounded-full transition-colors focus:outline-none ${
-            showExploded ? 'bg-blue-600' : 'bg-[var(--bg-input)]'
+          className={`relative inline-flex h-4 w-8 items-center transition-colors focus:outline-none border border-[var(--border-input)] ${
+            showExploded ? 'bg-[var(--color-primary)]' : 'bg-[var(--bg-input)]'
           }`}
         >
           <span
-            className={`inline-block h-2.5 w-2.5 transform rounded-full bg-white transition-transform ${
+            className={`inline-block h-2.5 w-2.5 transform bg-white transition-transform ${
               showExploded ? 'translate-x-4.5' : 'translate-x-1'
             }`}
           />

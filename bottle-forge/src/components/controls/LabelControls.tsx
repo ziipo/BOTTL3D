@@ -11,7 +11,7 @@ export function LabelControls() {
       <div>
         <div className="flex justify-between text-xs mb-1">
           <label className="text-[var(--fg-muted)]">Label Text</label>
-          <span className="text-[var(--fg-muted)] font-mono">
+          <span className="text-[var(--fg-muted)] font-technical">
             {emboss.text.length}/{MAX_LABEL_CHARS}
           </span>
         </div>
@@ -21,7 +21,7 @@ export function LabelControls() {
           maxLength={MAX_LABEL_CHARS}
           placeholder="Enter label text..."
           onChange={(e) => setEmboss({ text: e.target.value, enabled: e.target.value.length > 0 })}
-          className="w-full text-xs bg-[var(--bg-input)] text-[var(--fg-main)] border border-[var(--border-input)] rounded px-2 py-1.5 focus:outline-none focus:border-blue-500 placeholder:text-[var(--fg-muted)]/50"
+          className="w-full text-xs bg-[var(--bg-input)] text-[var(--fg-main)] border border-[var(--border-input)] px-2 py-1.5 focus:outline-none focus:border-[var(--color-primary)] placeholder:text-[var(--fg-muted)]/50"
         />
       </div>
 
@@ -34,9 +34,9 @@ export function LabelControls() {
               key={font}
               onClick={() => setEmboss({ fontFamily: font })}
               style={{ fontFamily: font === 'Roboto' ? 'sans-serif' : font }}
-              className={`px-2 py-1.5 text-[10px] rounded transition-colors border ${
+              className={`px-2 py-1.5 text-[10px] transition-colors border ${
                 emboss.fontFamily === font
-                  ? 'bg-blue-600 text-white border-blue-500'
+                  ? 'bg-[var(--color-primary)] text-[var(--bg-app)] border-[var(--color-primary)]'
                   : 'bg-[var(--bg-input)] text-[var(--fg-main)] border border-[var(--border-input)] hover:bg-[var(--bg-surface-elevated)]'
               }`}
             >
@@ -52,9 +52,9 @@ export function LabelControls() {
         <div className="flex gap-1">
           <button
             onClick={() => setEmboss({ orientation: 'wrap' })}
-            className={`flex-1 px-3 py-1.5 text-xs rounded transition-colors ${
+            className={`flex-1 px-3 py-1.5 text-xs transition-colors ${
               emboss.orientation === 'wrap'
-                ? 'bg-blue-600 text-white'
+                ? 'bg-[var(--color-primary)] text-[var(--bg-app)]'
                 : 'bg-[var(--bg-input)] text-[var(--fg-main)] border border-[var(--border-input)] hover:bg-[var(--bg-surface-elevated)]'
             }`}
           >
@@ -62,9 +62,9 @@ export function LabelControls() {
           </button>
           <button
             onClick={() => setEmboss({ orientation: 'vertical' })}
-            className={`flex-1 px-3 py-1.5 text-xs rounded transition-colors ${
+            className={`flex-1 px-3 py-1.5 text-xs transition-colors ${
               emboss.orientation === 'vertical'
-                ? 'bg-blue-600 text-white'
+                ? 'bg-[var(--color-primary)] text-[var(--bg-app)]'
                 : 'bg-[var(--bg-input)] text-[var(--fg-main)] border border-[var(--border-input)] hover:bg-[var(--bg-surface-elevated)]'
             }`}
           >
@@ -84,9 +84,9 @@ export function LabelControls() {
         <div className="flex gap-1">
           <button
             onClick={() => setEmboss({ mode: 'engrave' })}
-            className={`flex-1 px-3 py-1.5 text-xs rounded transition-colors ${
+            className={`flex-1 px-3 py-1.5 text-xs transition-colors ${
               emboss.mode === 'engrave'
-                ? 'bg-blue-600 text-white'
+                ? 'bg-[var(--color-primary)] text-[var(--bg-app)]'
                 : 'bg-[var(--bg-input)] text-[var(--fg-main)] border border-[var(--border-input)] hover:bg-[var(--bg-surface-elevated)]'
             }`}
           >
@@ -94,9 +94,9 @@ export function LabelControls() {
           </button>
           <button
             onClick={() => setEmboss({ mode: 'emboss' })}
-            className={`flex-1 px-3 py-1.5 text-xs rounded transition-colors ${
+            className={`flex-1 px-3 py-1.5 text-xs transition-colors ${
               emboss.mode === 'emboss'
-                ? 'bg-blue-600 text-white'
+                ? 'bg-[var(--color-primary)] text-[var(--bg-app)]'
                 : 'bg-[var(--bg-input)] text-[var(--fg-main)] border border-[var(--border-input)] hover:bg-[var(--bg-surface-elevated)]'
             }`}
           >
@@ -114,7 +114,7 @@ export function LabelControls() {
       <div>
         <div className="flex justify-between text-xs mb-1">
           <label className="text-[var(--fg-muted)]">Font Size</label>
-          <span className="text-[var(--fg-main)] font-mono">{emboss.fontSize.toFixed(0)} mm</span>
+          <span className="text-[var(--fg-main)] font-technical">{emboss.fontSize.toFixed(0)} mm</span>
         </div>
         <input
           type="range"
@@ -123,7 +123,7 @@ export function LabelControls() {
           step={1}
           value={emboss.fontSize}
           onChange={(e) => setEmboss({ fontSize: parseFloat(e.target.value) })}
-          className="w-full accent-blue-500"
+          className="w-full accent-[var(--color-primary)]"
         />
       </div>
 
@@ -131,7 +131,7 @@ export function LabelControls() {
       <div>
         <div className="flex justify-between text-xs mb-1">
           <label className="text-[var(--fg-muted)]">Depth</label>
-          <span className="text-[var(--fg-main)] font-mono">{emboss.depth.toFixed(1)} mm</span>
+          <span className="text-[var(--fg-main)] font-technical">{emboss.depth.toFixed(1)} mm</span>
         </div>
         <input
           type="range"
@@ -140,7 +140,7 @@ export function LabelControls() {
           step={0.1}
           value={emboss.depth}
           onChange={(e) => setEmboss({ depth: parseFloat(e.target.value) })}
-          className="w-full accent-blue-500"
+          className="w-full accent-[var(--color-primary)]"
         />
       </div>
 
@@ -148,7 +148,7 @@ export function LabelControls() {
       <div>
         <div className="flex justify-between text-xs mb-1">
           <label className="text-[var(--fg-muted)]">Vertical Position</label>
-          <span className="text-[var(--fg-main)] font-mono">{Math.round(emboss.verticalPosition * 100)}%</span>
+          <span className="text-[var(--fg-main)] font-technical">{Math.round(emboss.verticalPosition * 100)}%</span>
         </div>
         <input
           type="range"
@@ -157,7 +157,7 @@ export function LabelControls() {
           step={0.05}
           value={emboss.verticalPosition}
           onChange={(e) => setEmboss({ verticalPosition: parseFloat(e.target.value) })}
-          className="w-full accent-blue-500"
+          className="w-full accent-[var(--color-primary)]"
         />
       </div>
     </div>
