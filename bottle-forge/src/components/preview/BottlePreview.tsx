@@ -107,8 +107,9 @@ function Scene() {
   
   // Vellum (Light) vs Deep Draft (Dark)
   const bgColor = theme === 'dark' ? '#0A192F' : '#EBF3FF';
-  const gridColor = theme === 'dark' ? '#64FFDA' : '#00509E';
-  const gridOpacity = theme === 'dark' ? 0.05 : 0.1;
+  const gridColor = theme === 'dark' 
+    ? 'rgba(100, 255, 218, 0.05)' 
+    : 'rgba(0, 80, 158, 0.1)';
 
   return (
     <>
@@ -129,8 +130,6 @@ function Scene() {
         fadeStrength={1}
         followCamera={false}
         infiniteGrid
-        opacity={gridOpacity}
-        transparent
       />
 
       {/* Rotate -90° around X to convert Manifold's Z-up to Three.js Y-up.
