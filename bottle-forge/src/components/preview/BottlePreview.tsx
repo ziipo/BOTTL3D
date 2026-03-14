@@ -8,6 +8,7 @@ import { meshToThreeGeometry } from '../../engine/bridge';
 
 function BottleMesh() {
   const bottleMeshData = useBottleStore((s) => s.bottleMeshData);
+  const theme = useBottleStore((s) => s.theme);
 
   const geometry = useMemo(() => {
     if (!bottleMeshData) return null;
@@ -16,12 +17,15 @@ function BottleMesh() {
 
   if (!geometry) return null;
 
+  // Lighter neutral for the bottle body
+  const color = theme === 'dark' ? '#f1f5f9' : '#ffffff';
+
   return (
     <mesh geometry={geometry} castShadow receiveShadow>
       <meshStandardMaterial
-        color="#b8b8b8"
-        metalness={0.1}
-        roughness={0.6}
+        color={color}
+        metalness={0.05}
+        roughness={0.8}
         flatShading={true}
       />
     </mesh>
@@ -30,6 +34,7 @@ function BottleMesh() {
 
 function LidMesh() {
   const lidMeshData = useBottleStore((s) => s.lidMeshData);
+  const theme = useBottleStore((s) => s.theme);
   const showExploded = useBottleStore((s) => s.showExploded);
 
   const geometry = useMemo(() => {
@@ -39,18 +44,17 @@ function LidMesh() {
 
   if (!geometry) return null;
 
-  // Lid geometry is flush on top of bottle (at bottleHeight along Z).
-  // After the -90° X rotation applied to the group, Z becomes -Y in Three.js,
-  // so "up" in the rotated group is still the Z direction of the geometry.
-  // For exploded view, shift the lid up (in the group's local Z) by 20mm.
+  // Use primary theme colors for the lid
+  const color = theme === 'dark' ? '#64FFDA' : '#003366';
+
   const position: [number, number, number] = showExploded ? [0, 0, 20] : [0, 0, 0];
 
   return (
     <mesh geometry={geometry} position={position} castShadow receiveShadow>
       <meshStandardMaterial
-        color="#7cb9e8"
-        metalness={0.1}
-        roughness={0.5}
+        color={color}
+        metalness={0.15}
+        roughness={0.7}
         flatShading={true}
       />
     </mesh>
